@@ -51,13 +51,41 @@ function loadFrame(index){
 
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
-let img = new Image();
+if(index > 0 && frames[index-1]){
 
+let prevImg = new Image();
+prevImg.src = frames[index-1];
+
+prevImg.onload = function(){
+
+ctx.globalAlpha = 0.2;   // faint previous frame
+ctx.drawImage(prevImg,0,0);
+
+ctx.globalAlpha = 1.0;
+
+if(frames[index]){
+let img = new Image();
 img.src = frames[index];
 
 img.onload = function(){
 ctx.drawImage(img,0,0);
 };
+}
+
+};
+
+}else{
+
+if(frames[index]){
+let img = new Image();
+img.src = frames[index];
+
+img.onload = function(){
+ctx.drawImage(img,0,0);
+};
+}
+
+}
 
 }
 
