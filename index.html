@@ -1,36 +1,61 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>SketchMotion</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SketchMotion Pro</title>
+    <link rel="stylesheet" href="style.css">
+    
 </head>
-
 <body>
 
 <header>
-    <h1>✏ SketchMotion</h1>
+    <h1>✏️ SketchMotion <span class="version">PRO</span></h1>
+    <div class="header-actions">
+        <button id="clearFrame" class="btn-danger">🗑️ Clear Canvas</button>
+    </div>
 </header>
 
 <div class="toolbar">
-    <button id="pencil">✏ Pencil</button>
-    <button id="eraser">🧽 Eraser</button>
-    <button id="clear">🗑 Clear</button>
-    <button id="play">▶ Play</button>
+    <div class="tool-group">
+        <span class="label">Tools</span>
+        <input type="color" id="colorPicker" title="Brush Color" value="#000000">
+        <button id="pencilBtn" class="active">✏️</button>
+        <button id="eraserBtn">🧽</button>
+    </div>
+
+    <div class="tool-group">
+        <label>Size</label>
+        <input type="range" id="sizeSlider" min="1" max="50" value="5">
+    </div>
+
+    <div class="tool-group">
+        <span class="label">Canvas BG</span>
+        <input type="color" id="bgColorPicker" title="Background Color" value="#ffffff">
+    </div>
+
+    <div class="tool-group no-border">
+        <button id="play" class="btn-success">▶ Play</button>
+        <label>FPS</label>
+        <input type="range" id="speed" min="1" max="24" value="12">
+        <span id="speedVal">12</span>
+    </div>
 </div>
 
 <div class="workspace">
-    <canvas id="canvas" width="900" height="500"></canvas>
+    <div class="canvas-container">
+        <canvas id="canvas" width="800" height="450"></canvas>
+    </div>
 </div>
 
-<div class="timeline">
-    <span>Frames:</span>
-    <div id="frameContainer"></div>
-    <button id="addFrame">➕ Add Frame</button>
+<div class="controls">
+    <div class="timeline-box">
+        <span class="timeline-label">Frames</span>
+        <div id="frameContainer"></div>
+        <button id="addFrame" class="btn-primary">➕ New Frame</button>
+    </div>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
