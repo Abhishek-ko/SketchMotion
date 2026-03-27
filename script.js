@@ -93,3 +93,52 @@ createFrameButton(frames.length - 1);
 
 frames.push(null);
 createFrameButton(0);
+const playBtn = document.getElementById("play");
+
+let playing = false;
+let animationInterval;
+
+playBtn.onclick = function(){
+
+if(!playing){
+
+playing = true;
+
+let frameIndex = 0;
+
+animationInterval = setInterval(function(){
+
+if(frames.length === 0) return;
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+let img = new Image();
+img.src = frames[frameIndex];
+
+img.onload = function(){
+ctx.drawImage(img,0,0);
+};
+
+frameIndex++;
+
+if(frameIndex >= frames.length){
+frameIndex = 0;
+}
+
+},150);
+
+playBtn.innerText = "⏹ Stop";
+
+}else{
+
+playing = false;
+
+clearInterval(animationInterval);
+
+playBtn.innerText = "▶ Play";
+
+loadFrame(currentFrame);
+
+}
+
+};
