@@ -1,86 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;800&display=swap');
+
 :root {
-    --bg-dark: #121212;
-    --panel-dark: #1e1e1e;
-    --accent: #007acc;
-    --success: #28a745;
-    --danger: #dc3545;
-    --border: #333;
-    --text: #efefef;
+    --bg:       #0e0e10;
+    --panel:    #17171a;
+    --surface:  #1f1f24;
+    --accent:   #5865f2;
+    --accent2:  #eb459e;
+    --success:  #3ba55c;
+    --danger:   #ed4245;
+    --border:   #2e2e35;
+    --text:     #e8e8f0;
+    --muted:    #72727a;
+    --radius:   6px;
 }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg-dark); color: var(--text);
-    height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+    font-family: 'Syne', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-size: 13px;
 }
 
+/* ── HEADER ── */
 header {
-    background: #000; padding: 12px 20px; border-bottom: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
+    background: #09090b;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
 }
 
-.version { font-size: 10px; background: var(--accent); padding: 2px 6px; border-radius: 4px; vertical-align: middle; }
+.header-left { display: flex; align-items: center; gap: 10px; }
+.logo-icon { font-size: 20px; }
 
+header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: #fff;
+}
+
+.version {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    background: var(--accent);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+.header-actions { display: flex; gap: 8px; align-items: center; }
+
+/* ── TOOLBAR ── */
 .toolbar {
-    background: var(--panel-dark); padding: 8px 20px;
-    display: flex; gap: 20px; align-items: center; border-bottom: 1px solid var(--border);
+    background: var(--panel);
+    padding: 7px 16px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    flex-wrap: wrap;
 }
 
 .tool-group {
-    display: flex; align-items: center; gap: 10px;
-    padding-right: 20px; border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 14px 0 0;
+    margin-right: 6px;
+    border-right: 1px solid var(--border);
+}
+.tool-group.no-border { border-right: none; }
+
+.label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
 }
 
-.no-border { border: none; }
-.label { font-size: 11px; text-transform: uppercase; color: #888; margin-right: 5px; }
-
-canvas {
-    background: white; border-radius: 4px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5); cursor: crosshair;
+/* ── SELECTION TOOLBAR ── */
+.selection-toolbar {
+    background: #1a1a2e;
+    border-bottom: 1px solid var(--accent);
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    animation: slideDown 0.15s ease;
 }
 
-.workspace { flex: 1; display: flex; justify-content: center; align-items: center; background: #181818; }
+.selection-toolbar.hidden { display: none; }
 
-.controls { background: var(--panel-dark); padding: 15px 20px; border-top: 1px solid var(--border); }
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-left: auto;
+}
+
+/* ── BUTTONS ── */
+button {
+    border: none;
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: #fff;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+button:hover { background: #2c2c34; border-color: #484852; }
+button:active { transform: scale(0.97); }
+button.active, button.tool-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.btn-primary  { background: var(--accent);  border-color: var(--accent); }
+.btn-primary:hover { background: #4752c4; }
+.btn-success  { background: var(--success); border-color: var(--success); }
+.btn-success:hover { background: #2d8a4e; }
+.btn-danger   { background: var(--danger);  border-color: var(--danger); }
+.btn-danger:hover { background: #c23236; }
+.btn-accent   { background: #2e2e55; border-color: var(--accent); color: #aeb5ff; }
+.btn-accent:hover { background: #3b3b6e; }
+
+button:disabled { opacity: 0.35; cursor: not-allowed; }
+
+input[type="color"] {
+    width: 32px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+    padding: 2px;
+}
+
+input[type="range"] {
+    accent-color: var(--accent);
+    width: 80px;
+    cursor: pointer;
+}
+
+#sizeVal, #speedVal {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    min-width: 20px;
+}
+
+/* ── WORKSPACE ── */
+.workspace {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111114;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Subtle grid backdrop */
+.workspace::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+/* ── CANVAS STACK ── */
+.canvas-wrapper {
+    position: relative;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* All canvases stacked */
+#onionCanvas, #canvas, #selectionCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    border-radius: 4px;
+}
+
+/* The wrapper sizes itself to the main canvas */
+.canvas-wrapper {
+    width: 800px;
+    height: 450px;
+}
+
+#onionCanvas  { z-index: 1; pointer-events: none; border-radius: 4px; }
+#canvas       { z-index: 2; cursor: crosshair; background: transparent; border-radius: 4px; }
+#selectionCanvas { z-index: 3; pointer-events: none; border-radius: 4px; }
+
+/* ── CONTROLS / TIMELINE ── */
+.controls {
+    background: var(--panel);
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.timeline-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 100%;
+}
+
+.timeline-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+    white-space: nowrap;
+}
 
 #frameContainer {
-    display: flex; gap: 10px; overflow-x: auto; padding: 10px;
-    background: #141414; border-radius: 8px; flex: 1; margin: 0 15px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 8px;
+    background: #0c0c0f;
+    border-radius: var(--radius);
+    flex: 1;
+    min-height: 84px;
+    border: 1px solid var(--border);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
 }
 
+#frameContainer::-webkit-scrollbar { height: 4px; }
+#frameContainer::-webkit-scrollbar-track { background: transparent; }
+#frameContainer::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.timeline-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+/* ── FRAME THUMBNAILS ── */
 .frame-btn {
-    flex: 0 0 90px; height: 60px; background: #000; border: 2px solid #444;
-    border-radius: 4px; cursor: pointer; transition: 0.2s; position: relative;
-}
-
-.frame-btn.selected { border-color: var(--accent); transform: scale(1.05); }
-
-.frame-btn canvas { width: 100%; height: 100%; pointer-events: none; }
-
-button {
-    border: none; border-radius: 4px; padding: 8px 15px; cursor: pointer;
-    font-weight: 600; color: white; background: #444; transition: 0.2s;
-}
-
-button:hover { opacity: 0.8; }
-button.active { background: var(--accent); }
-.btn-primary { background: var(--accent); }
-.btn-success { background: var(--success); }
-.btn-danger { background: var(--danger); }
-
-#canvas {
-    background-color: white; /* This is your actual paper */
-    background-position: center;
-    background-repeat: no-repeat;
-    /* This makes the CSS background (Onion Skin) look faint */
-    /* Adjust the 0.1 to make the ghost darker or lighter */
-    mask-image: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1)); 
-}
-
-/* We use a pseudo-element or a container to dim the background specifically */
-.canvas-container {
+    flex: 0 0 90px;
+    height: 60px;
+    background: #000;
+    border: 2px solid #333;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s;
     position: relative;
-    background: white;
+    overflow: hidden;
 }
 
-/* Optional: Add a style to dim the background image specifically via inline styles */
+.frame-btn:hover { border-color: #555; }
+.frame-btn.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(88,101,242,0.3); }
+
+.frame-btn canvas {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: block;
+}
+
+.frame-number {
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.6);
+    pointer-events: none;
+}
+
+.btn-download { background: #2e4a2e; border-color: #3ba55c; color: #7dcc96; }
+.btn-download:hover { background: #3a5f3a; }
+.btn-download:disabled { opacity: 0.5; cursor: not-allowed; }
